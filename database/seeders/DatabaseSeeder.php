@@ -19,11 +19,5 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-
-        // Este codigo es para incluir el seeder de forma global
-        $this->call([
-            CategoryTableSeeder::class,
-            ProductTableSeeder::class
-        ]);
     }
 }
