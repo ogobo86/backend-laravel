@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BackendController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QueriesController; 
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,9 @@ Route::get("/query/{id}", [QueriesController::class, "getById"]); // Obtener reg
 Route::get("/query/method/names", [QueriesController::class, "getNames"]); // Seleccionar por campos
 Route::get("/query/method/search/{name}/{precio}", [QueriesController::class, "searchName"]); // Filtrado de informacion WHERE
 Route::get("/query/method/searchString/{value}", [QueriesController::class, "searchString"]); // Filtrado de informacion LIKE
-
 Route::post("/query/method/advancedSearch", [QueriesController::class, "advancedSearch"]); // Busqueda dinamica
-
 Route::get("/query/method/join", [QueriesController::class, "join"]); // JOIN
-
 Route::get("/query/method/groupby", [QueriesController::class, "groupBy"]); // GROUP BY
+
+# CRUD EN LARABEL
+Route::apiResource("/product", ProductController::class); // 
