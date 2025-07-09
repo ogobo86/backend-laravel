@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\QueriesController; 
+use App\Http\Controllers\QueriesController;
+use App\Http\Middleware\CheckValueInHeader;
+use App\Http\Middleware\UppercaseName;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,7 +12,9 @@ Route::get('/test',function(){
     return "El backen funciona correctamente";
 });
 
-Route::get('/backend', [BackendController::class, "getAll"]);
+Route::get('/backend', [BackendController::class, "getAll"])
+    ->middleware("checkvalue");
+    
 Route::get('/backend/{id?}', [BackendController::class, "get"]);
 Route::post('/backend', [BackendController::class, "create"]);
 Route::put('/backend/{id}', [BackendController::class, 'update']);
@@ -28,4 +32,5 @@ Route::get("/query/method/join", [QueriesController::class, "join"]); // JOIN
 Route::get("/query/method/groupby", [QueriesController::class, "groupBy"]); // GROUP BY
 
 # CRUD EN LARABEL
-Route::apiResource("/product", ProductController::class); // 
+Route::apiResource("/product", ProductController::class)
+    ->middleware([CheckValueInHeader::class, UppercaseName::class ]); 
