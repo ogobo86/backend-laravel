@@ -46,19 +46,49 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    // Para saber quien esta conectado
+    public function who(){
+        
+        $user = auth()->user();
+        return response()->json($user);
+    }
+
+    // Cierre de sesion
+    public function logout(){
+
+        try {
+            // Se obtiene el token 
+            $token = JWTAuth::getToken();
+            // Se invalida
+            JWTAuth::invalidate($token);
+            return response()->json(['message'=>'Sesion cerrada correctamente']);
+        }catch (JWTException $e) {
+            return response()->json(['error'=>'No se pudo cerrar la sesion, el token no es valido.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function refresh(){
+
+        try {
+            // Se obtiene el token 
+            $token = JWTAuth::getToken();
+            // Se genera el nuevo token
+            $newToken = auth()->refresh();
+            // Se invalida el toiken viejo
+            JWTAuth::invalidate($token);
+            return $this->respondWithToken($newToken);
+        }catch (JWTException $e) {
+            return response()->json(['error'=>'Error al refrescar el token.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Expiracion de token
     protected function respondWithToken($token){
 
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() *60
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
-    }
-
-    public function who(){
-        
-        $user = auth()->user();
-        return response()->json($user);
     }
 }

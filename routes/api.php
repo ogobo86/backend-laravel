@@ -45,6 +45,12 @@ Route::post('/register', [AuthController::class, 'register']);
 // Login de ususarios
 Route::post('/login', [AuthController::class, 'login'])->name("login");
 
+// agrupacion 
 Route::middleware("jwt.auth") -> group(function(){
+    // saber quien esta conectado
     Route::get('who', [AuthController::class, 'who']);
+    // logout
+    Route::post('logout', [AuthController::class, 'logout']);
+    // Refresh
+    Route::post('refresh', [AuthController::class, 'refresh']);
 });
