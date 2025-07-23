@@ -4,9 +4,10 @@ use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QueriesController;
 use App\Http\Middleware\CheckValueInHeader;
+use App\Http\Middleware\LogRequests;
 use App\Http\Middleware\UppercaseName;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 
 Route::get('/test',function(){
     return "El backen funciona correctamente";
@@ -33,4 +34,17 @@ Route::get("/query/method/groupby", [QueriesController::class, "groupBy"]); // G
 
 # CRUD EN LARABEL
 Route::apiResource("/product", ProductController::class)
-    ->middleware([CheckValueInHeader::class, UppercaseName::class ]); 
+# USO DE MIDDLEWARE
+    ->middleware([
+        "jwt.auth", // Token para acceder a rutas
+        LogRequests::class
+    ]); 
+
+// Registro de usuarios
+Route::post('/register', [AuthController::class, 'register']);
+// Login de ususarios
+Route::post('/login', [AuthController::class, 'login'])->name("login");
+
+Route::middleware("jwt.auth") -> group(function(){
+    Route::get('who', [AuthController::class, 'who']);
+});
