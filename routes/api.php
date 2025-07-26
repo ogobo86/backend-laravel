@@ -8,6 +8,7 @@ use App\Http\Middleware\LogRequests;
 use App\Http\Middleware\UppercaseName;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InfoController;
 
 Route::get('/test',function(){
     return "El backen funciona correctamente";
@@ -54,3 +55,7 @@ Route::middleware("jwt.auth") -> group(function(){
     // Refresh
     Route::post('refresh', [AuthController::class, 'refresh']);
 });
+
+Route::get("/info/message", [InfoController::class, 'message']);
+
+Route::get("/info/tax/{id}", [Infocontroller::class, 'iva']);
