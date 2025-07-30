@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Business\Interfaces\MessageServiceInterface;
+use App\Business\Services\EncryptorService;
 use App\Business\Services\HiService;
 use App\Business\Services\ProductService;
+use App\Business\Services\SingletonService;
+use App\Business\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,15 +15,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InfoController extends Controller
 {
-    public function __construct(protected ProductService $productService)
-    {
-        
-    }
+    public function __construct(protected ProductService $productService, 
+        protected EncryptorService $encryptorService,
+        protected UserService $userService,
+        protected MessageServiceInterface $hiService,
+        protected SingletonService $singletonService)
+    { }
     
     // 
-    public function message(MessageServiceInterface $hiService){
+    public function message(){
 
-        return response()->json($hiService->hi());
+        return response()->json($this->hiService->hi());
     }
 
     public function iva(int $id){
@@ -36,4 +41,27 @@ class InfoController extends Controller
         return response()->json(['price' => $product->price, "priceWithIVA"=>$priceWithIVA]);
     }
 
+    public function encrypt($data){
+        return response()->json($this->encryptorService->encrypt($data));
+    }
+
+    public function decrypt($data){
+        return response()->json($this->encryptorService->decrypt($data));
+    }
+
+    public function encryptEmail(int $id){
+
+        $emailEncrypted = $this->userService->encryptEmail($id);
+        return response()->json($emailEncrypted);
+    }
+
+    public function singleton (SingletonService $singletonService2){
+        return response()->json($this->singletonService->value." ".$singletonService2->value);
+    }
+
+    public function encryptEmail2(int $id){
+        $userService = app()->make(UserService::class);
+        $emailEncrypted = $userService->encryptEmail($id);
+        return response()->json($emailEncrypted);
+    }
 }

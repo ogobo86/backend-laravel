@@ -59,3 +59,12 @@ Route::middleware("jwt.auth") -> group(function(){
 Route::get("/info/message", [InfoController::class, 'message']);
 
 Route::get("/info/tax/{id}", [Infocontroller::class, 'iva']);
+
+// Encryptor
+Route::get("/info/encrypt/{data}", [InfoController::class, 'encrypt']);
+Route::get("/info/decrypt/{data}", [InfoController::class, 'decrypt']);
+Route::get("/info/encryptEmail/{id}", [InfoController::class, 'encryptEmail']);
+
+Route::get("/info/singleton", [InfoController::class, 'singleton']);
+
+Route::get("/info/encryptEmail2/{id}", [InfoController::class, 'encryptEmail2']);
