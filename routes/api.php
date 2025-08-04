@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QueriesController;
@@ -68,3 +69,7 @@ Route::get("/info/encryptEmail/{id}", [InfoController::class, 'encryptEmail']);
 Route::get("/info/singleton", [InfoController::class, 'singleton']);
 
 Route::get("/info/encryptEmail2/{id}", [InfoController::class, 'encryptEmail2']);
+
+// Controlador ApiController 
+
+Route::get("/api", [ApiController::class, "get"]);
