@@ -37,10 +37,7 @@ Route::get("/query/method/groupby", [QueriesController::class, "groupBy"]); // G
 # CRUD EN LARABEL
 Route::apiResource("/product", ProductController::class)
 # USO DE MIDDLEWARE
-    ->middleware([
-        "jwt.auth", // Token para acceder a rutas
-        LogRequests::class
-    ]); 
+    ->middleware([ "jwt.auth", LogRequests::class]); 
 
 // Registro de usuarios
 Route::post('/register', [AuthController::class, 'register']);
