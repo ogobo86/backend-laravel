@@ -10,6 +10,7 @@ use App\Http\Middleware\UppercaseName;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\SaleController;
 
 Route::get('/test',function(){
     return "El backen funciona correctamente";
@@ -70,3 +71,7 @@ Route::get("/info/encryptEmail2/{id}", [InfoController::class, 'encryptEmail2'])
 // Controlador ApiController 
 
 Route::get("/api", [ApiController::class, "get"]);
+
+
+Route::get('/sale',[SaleController::class, 'get']);
+Route::post('/sale',[SaleController::class, 'create']);
