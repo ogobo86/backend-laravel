@@ -4,7 +4,7 @@ use App\Business\Services\CreateSaleService;
 use App\Http\Requests\SaleRequest;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Validator;
+use Illuminate\Support\Facades\Validator;
 
 beforeEach(function(){
     $this->service = new CreateSaleService();
